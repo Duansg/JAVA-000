@@ -45,12 +45,12 @@ public class HttpOutboundHandler {
                 keepAliveTime, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(queueSize),
                 new NamedThreadFactory("proxyService"), handler);
         httpClient = HttpClientBuilder.create().build();
-        System.out.println("HttpInboundHandler 初始化 HttpOutboundHandlerMy...");
+        System.out.println("HttpInboundHandler 初始化 HttpOutboundHandler");
     }
 
     public void handle(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx) {
         final String url = this.backendUrl + fullRequest.uri();
-        System.out.println("HttpInboundHandler 调用 HttpOutboundHandlerMy.handle...");
+        System.out.println("HttpInboundHandler 调用 HttpOutboundHandler");
         proxyService.submit(()->fetchGet(fullRequest, ctx, url));
     }
 
@@ -70,8 +70,6 @@ public class HttpOutboundHandler {
             callResponse = httpClient.execute(httpGet);
             byte[] body = EntityUtils.toByteArray(callResponse.getEntity());;
             response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(body));
-             String value = "hello,world";
-             response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(value.getBytes("UTF-8")));
              response.headers().set("Content-Type", "application/json");
              response.headers().setInt("Content-Length", response.content().readableBytes());
              ctx.write(response);
