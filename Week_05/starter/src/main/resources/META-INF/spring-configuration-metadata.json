@@ -1,0 +1,23 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "me.bob.StudentProperties",
+      "name": "me.bob",
+      "type": "me.bob.StudentProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "me.bob.StudentProperties",
+      "defaultValue": 0,
+      "name": "me.bob.id",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "me.bob.StudentProperties",
+      "name": "me.bob.name",
+      "type": "java.lang.String"
+    }
+  ]
+}
