@@ -20,4 +20,11 @@ public interface OrderInfoFacade {
      * @return
      */
     Boolean saveOrder(OrderInfoParam.CreateParam param);
+
+    /**
+     *
+     * @param param
+     * @return
+     */
+    Boolean checkOrderAndSave(OrderInfoParam.CreateParam param);
 }

@@ -7,10 +7,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.example.routing.base.DataSourceContextHolder;
+import org.example.routing.base.DataSourceMergeContextHolder;
 import org.example.routing.enums.RouteSourceEnum;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 
@@ -43,7 +45,7 @@ public class RouteDataSourceAspect {
             MethodSignature signature = (MethodSignature) point.getSignature();
             Method method = signature.getMethod();
             RouteDataSource annotation = method.getAnnotation(RouteDataSource.class);
-            if (ObjectUtils.isEmpty(annotation)){
+            if (ObjectUtils.isEmpty(annotation)|| !StringUtils.isEmpty(DataSourceMergeContextHolder.get())){
                 DataSourceContextHolder.set(RouteSourceEnum.MASTER.getDataSourceName());
             }else {
                 DataSourceContextHolder.set(routeDataSource.target().getDataSourceName());
