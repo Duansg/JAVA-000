@@ -1,0 +1,53 @@
+# 配置真实数据源
+dataSources:
+  # 配置第 1 个数据源
+  demo00: !!com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo00
+    username: root
+    password: 123456
+  # 配置第 2 个数据源
+  demo01: !!com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/demo01
+    username: root
+    password: 123456
+
+rules:
+  # 配置分片规则
+  - !SHARDING
+    tables:
+      # 配置 order_info 表规则
+      order_info:
+        actualDataNodes: demo0${0..1}.order_info_${0..1}
+        # 配置分表策略
+        tableStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: table_inline
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+        # 配置分库策略
+        databaseStrategy:
+          standard:
+            shardingColumn: order_code
+            shardingAlgorithmName: database_inline
+    # 配置分片算法
+    shardingAlgorithms:
+      database_inline:
+        type: INLINE
+        props:
+          algorithm-expression: demo0${order_code.hashCode() % 2}
+      table_inline:
+        type: INLINE
+        props:
+          algorithm-expression: order_info_${id.hashCode() & Integer.MAX_VALUE % 2}
+
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+        props:
+          worker-id: 123
+props:
+  sql-show: true
