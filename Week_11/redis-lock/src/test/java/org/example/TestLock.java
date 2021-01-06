@@ -23,9 +23,16 @@ public class TestLock{
 
     @Test
     public void test(){
-        Boolean result = RedisLockSupport.lock("duansg", 1, 30);
+
+        Boolean result = RedisLockSupport.lock("duansg", "1.0", 30);
         System.out.println("尝试加锁,结果:" + result);
-        Boolean result1 = RedisLockSupport.lock("duansg", 1, 30);
+        Boolean result1 = RedisLockSupport.lock("duansg", "1.0", 30);
         System.out.println("尝试加锁,结果:" + result1);
+        Boolean unLock1 = RedisLockSupport.unLock("duansg", "2.0");
+        System.out.println("尝试解锁,结果:" + unLock1);
+        Boolean unLock2 = RedisLockSupport.unLock("duansg", "1.0");
+        System.out.println("尝试解锁,结果:" + unLock2);
+
+
     }
 }

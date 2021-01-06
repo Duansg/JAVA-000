@@ -3,6 +3,7 @@ package org.example.lock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,11 +27,23 @@ public class RedisLockSupport {
     /**
      * @test see org.example.TestLock
      */
-    public static Boolean lock(String key, Object value,int seconds) {
+    public static Boolean lock(String key, String version ,int seconds) {
         try {
-            return redisTemplate.opsForValue().setIfAbsent(key, value);
-        }finally {
+            return redisTemplate.opsForValue().setIfAbsent(key, version, seconds, TimeUnit.SECONDS);
+        }catch (Exception e){
             redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
         }
+        return false;
+    }
+
+    /**
+     * @test see org.example.TestLock
+     */
+    public static boolean unLock(String key, String version) {
+        String v = (String) redisTemplate.opsForValue().get(key);
+        if (!StringUtils.isEmpty(v)&&v.equals(version)){
+            return redisTemplate.delete(key);
+        }
+        return false;
     }
 }
