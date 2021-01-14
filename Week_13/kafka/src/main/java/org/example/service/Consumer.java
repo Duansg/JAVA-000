@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Consumer {
 
+    /**
+     * @see org.example.Test
+     * @param msg
+     */
     @KafkaListener(topics = "test-topic",id = "consumer-id")
     public void topic_test(String msg) {
         System.out.println(msg);

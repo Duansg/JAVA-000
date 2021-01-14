@@ -22,8 +22,7 @@ public class Test {
 
     @Autowired
     private Provider provider;
-    @Autowired
-    private Consumer consumer;
+
     @org.junit.Test
     public void test() throws InterruptedException {
         provider.produce();
