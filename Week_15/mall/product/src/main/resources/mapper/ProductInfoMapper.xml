@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.product.dao.ProductInfoMapper">
+
+    <select id="getForUpdate" resultType="org.product.entity.ProductInfoEntity">
+        SELECT
+            pi.id id,
+            pi.product_code productCode,
+            pi.product_name productName,
+            pi.product_status productStatus,
+            pi.stock stock
+        FROM
+            product_info pi
+        where
+            pi.id =  #{id}
+        for update
+    </select>
+</mapper>
