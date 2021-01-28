@@ -41,6 +41,7 @@ public class StockFallbackJob {
                     if (!ObjectUtils.isEmpty(object)){
                         StockRecordEntity stockRecordEntity = stockRecordService.getOne(new QueryWrapper<StockRecordEntity>().lambda()
                                 .eq(StockRecordEntity::getBatchNo, String.valueOf(object))
+                                .eq(StockRecordEntity::getVersion,2)
                         );
                         //加回库存
                         redisTemplate.opsForValue().increment(String.format("STOCK:STOCKNUM_%s", stockRecordEntity.getProductCode()),stockRecordEntity.getNum());

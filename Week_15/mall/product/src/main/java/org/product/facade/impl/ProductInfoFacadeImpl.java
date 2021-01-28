@@ -77,7 +77,6 @@ public class ProductInfoFacadeImpl implements ProductInfoFacade {
         keyList.add(String.format("STOCK:STOCKNUM_%s", param.getProductCode()));
         keyList.add(String.format("STOCK:STOCK_BATCHNO_%s", batchNo));
         DeductStockResultDto deductStockResultDto = null;
-        boolean fallBack = false;
         boolean demotion = false;
         try{
             try{
